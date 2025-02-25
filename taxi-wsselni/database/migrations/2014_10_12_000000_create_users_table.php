@@ -20,9 +20,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('status',['Active','Suspended']);
-            $table->unsignedInteger('id_role');
-            $table->foreign('id_role')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
+            $table->enum('status',['Active','Suspended'])->default('Active');
+            $table->enum('role',['Driver','Passenger','Admin']);
             $table->rememberToken();
             $table->timestamps();
         });
