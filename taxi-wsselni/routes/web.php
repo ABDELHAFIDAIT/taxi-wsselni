@@ -14,11 +14,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Home Page
+Route::get('/', function () { return view('index');})->name('homepage');
 
-Route::get('/login',[AuthController::class, 'showLogin'])->name('show.login');
-Route::get('/register',[AuthController::class, 'showRegister'])->name('show.register');
-// Route::get('/login',[AuthController::class, 'login'])->name('register');
-// Route::get('/register',[AuthController::class, 'register'])->name('register');
+// Services Page
+Route::get('/services', function () {
+    return view('pages.services');
+})->name('services');
+
+// Chauffeurs Page
+Route::get('/chauffeurs', function () {
+    return view('pages.chauffeurs');
+})->name('chauffeurs');
+
+// Chauffeur Details Page
+Route::get('/chauffeur/{id}', function () {
+    return view('pages.chaffeur');
+})->name('details');
+
+Route::middleware(['guest'])->group(function(){
+    Route::get('/login',[AuthController::class, 'showLogin'])->name('login');
+    Route::get('/register',[AuthController::class, 'showRegister'])->name('register');
+});
