@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Models\Driver;
 
 
 class AuthController extends Controller
@@ -39,15 +40,29 @@ class AuthController extends Controller
 
     // Register
     public function register(Request $request){
-        $validator = Validator::make($request->all(), [
-            'f_name' => 'required|string|max:255',
-            'l_name' => 'required|string|max:255',
-            'phone' => 'required|string|max:15',
-            'role' => 'required|string|in:Driver,Passenger',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
-        ]);
+        if($request->role == 'Passenger'){
+            $validator = Validator::make($request->all(), [
+                'f_name' => 'required|string|max:255',
+                'l_name' => 'required|string|max:255',
+                'phone' => 'required|string|max:15',
+                'role' => 'required|string|in:Driver,Passenger',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:8|confirmed',
+                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            ]);
+        }else{
+            $validator = Validator::make($request->all(), [
+                'f_name' => 'required|string|max:255',
+                'l_name' => 'required|string|max:255',
+                'phone' => 'required|string|max:15',
+                'role' => 'required|string|in:Driver,Passenger',
+                'permis' => 'required|string|max:20|unique:drivers',
+                'vehicule' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:8|confirmed',
+                'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            ]);
+        }
 
         $imagePath = null;
         if ($request->hasFile('photo')) {
@@ -60,6 +75,7 @@ class AuthController extends Controller
                 ->withInput();
         }
 
+
         $user = User::create([
             'f_name'   => $request->f_name,
             'l_name'   => $request->l_name,
@@ -69,6 +85,14 @@ class AuthController extends Controller
             'email'    => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        if($request->role == 'Driver'){
+            $driver = Driver::create([
+                'permis'   => $request->permis,
+                'vehicule' => $request->vehicule,
+                'id_driver'  => $user->id,
+            ]);
+        }
 
         auth()->login($user);
 

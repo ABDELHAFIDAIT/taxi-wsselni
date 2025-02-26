@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('id_client');
-            $table->foreign('id_client')->references('id')->on('clients');
+            $table->unsignedInteger('id_passenger');
+            $table->foreign('id_passenger')->references('id')->on('users');
             $table->unsignedInteger('id_driver');
             $table->foreign('id_driver')->references('id')->on('drivers');
             $table->timestamp('date_reservation');

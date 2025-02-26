@@ -28,7 +28,7 @@ Route::get('/services', function () {
 //     return view('pages.chauffeurs');
 // })->name('chauffeurs');
 
-Route::get('/chauffeurs', [UserController::class,'index'])->name('chauffeurs');
+Route::get('/chauffeurs', [UserController::class,'drivers'])->name('chauffeurs');
 
 // Chauffeur Details Page
 Route::get('/chauffeur/{id}', function () {

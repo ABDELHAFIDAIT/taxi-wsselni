@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('vehicule');
             $table->unsignedInteger('id_driver');
             $table->foreign('id_driver')->references('id')->on('users');
-            $table->unsignedInteger('id_city')->nullable();
+            $table->unsignedInteger('id_city');
             $table->foreign('id_city')->references('id')->on('cities');
             $table->timestamps();
         });

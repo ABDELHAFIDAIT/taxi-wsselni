@@ -108,13 +108,13 @@
                                         <span>{{ $user->phone}}</span>
                                     </div>
                                     <div class="flex items-center text-gray-600">
-                                        <i class="fas fa-star mr-2 text-yellow-400"></i>
-                                        <span>4.8</span>
+                                        <i class="fa-solid fa-taxi text-yellow-400 pr-3"></i>
+                                        <span>{{ $user->driver->vehicule }}</span>
                                     </div>
                                 </div>
                                 @auth
                                     @if(Auth::user()->role == 'Passenger')
-                                        <button id="openPopup" type="button" class="mt-4 px-8 py-2 bg-blue-600 text-white font-medium rounded-sm hover:bg-blue-700 transition-colors duration-200 flex justify-center items-center w-full cursor-pointer">
+                                        <button data-id="{{ $user->driver->id }}" id="openPopup" type="button" class="mt-4 px-8 py-2 bg-blue-600 text-white font-medium rounded-sm hover:bg-blue-700 transition-colors duration-200 flex justify-center items-center w-full cursor-pointer">
                                             Réserver
                                         </button>
                                     @endif
@@ -128,6 +128,7 @@
             @endif
         </div>
 
+        <!-- Popup -->
         <div id="popup" class="fixed inset-0 z-50 flex items-center justify-center hidden">
             <div class="bg-white rounded-md w-1/3">
                 <div class="flex items-center justify-between p-5">

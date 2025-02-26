@@ -128,6 +128,65 @@
                     @enderror
                 </div>
 
+                <!-- Driver Infos -->
+                <div class="drivers-infos hidden">
+                    <!-- Permis -->
+                    <div>
+                        <label for="permis" class="block text-sm font-medium text-gray-700 mb-2">N° Permis</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-gray-400"></i>
+                            </div>
+                            <input id="permis" type="permis" name="permis" value="{{ old('permis') }}" autocomplete="permis"
+                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="N123456">
+                        </div>
+                        
+                        @error('permis')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- Vehicule -->
+                    <div class="mt-5">
+                        <label for="vehicule" class="block text-sm font-medium text-gray-700 mb-2">Vehicule</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-envelope text-gray-400"></i>
+                            </div>
+                            <input id="vehicule" type="vehicule" name="vehicule" value="{{ old('vehicule') }}" autocomplete="vehicule"
+                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Toyota, BMW, Renault...">
+                        </div>
+                        
+                        @error('vehicule')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <!-- City -->
+                    <div>
+                        <label for="city" class="block text-sm font-medium text-gray-700 mb-2">Ville</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-user-tag text-gray-400"></i>
+                            </div>
+                            <select id="city" name="city" required class="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
+                                @foreach ($cities as $city)
+                                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                @endforeach
+                            </select>
+                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                <i class="fas fa-chevron-down text-gray-400"></i>
+                            </div>
+                        </div>
+
+                        @error('city')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                
                 <!-- Email -->
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Adresse email</label>
@@ -194,5 +253,22 @@
             </form>
         </div>
     </div>
+
+
+
+    <script>
+        const role = document.getElementById('role');
+        const driverInfos = document.querySelector('.drivers-infos');
+
+        role.addEventListener('change', () => {
+            if (role.value === 'Driver') {
+                driverInfos.classList.remove('hidden');
+            } else {
+                driverInfos.classList.add('hidden');
+            }
+        });
+    </script>
+
+
 </body>
 </html>
