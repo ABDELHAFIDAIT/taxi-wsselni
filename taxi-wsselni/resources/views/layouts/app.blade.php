@@ -75,7 +75,7 @@
     @endguest
 
     @auth
-        @if(Auth::user()->role = 'Passenger')
+        @if(Auth::user()->role === 'Passenger')
         <!-- Navigation -->
         <nav class="bg-white shadow-lg">
             <div class="max-w-7xl mx-auto px-4">
@@ -103,13 +103,9 @@
                             </button>
                             <!-- Dropdown menu -->
                             <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                                <a href="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                <a href="{{ route('passenger.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
                                     <i class="fas fa-user mr-2"></i>
                                     Profile
-                                </a>
-                                <a href="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
-                                    <i class="fas fa-ticket-alt mr-2"></i>
-                                    Réservations
                                 </a>
                                 <div class="border-t border-gray-100"></div>
                                 <form action="{{ route('logout') }}" method="POST" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer">
@@ -140,11 +136,11 @@
                         <div class="border-t border-gray-200 pt-4 pb-3">
                             <div class="flex items-center px-3">
                                 <div class="flex-shrink-0">
-                                    <img src="https://raw.githubusercontent.com/ABDELHAFIDAIT/youdemy/refs/heads/main/uploads/user.png" alt="Photo de profil" class="w-10 h-10 rounded-full">
+                                    <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Photo de profil" class="w-10 h-10 rounded-full">
                                 </div>
                             </div>
                             <div class="mt-3 space-y-1">
-                                <a href="/" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">
+                                <a href="{{ route('passenger.profile') }}" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">
                                     <i class="fas fa-user mr-2"></i>
                                     Profile
                                 </a>
@@ -162,6 +158,36 @@
                 </div>
             </div>
         </nav>
+        @endif
+
+        @if(Auth::user()->role === 'Driver')
+            <!-- Navigation -->
+            <nav class="bg-white shadow-lg">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="flex justify-between items-center h-16">
+                        <div class="flex items-center">
+                            <a href="index.html" class="flex items-center">
+                                <span class="text-2xl font-bold text-yellow-500">Taxi</span>
+                                <span class="text-2xl font-bold text-blue-600">Wsselni</span>
+                            </a>
+                        </div>
+                        <div class="hidden md:flex items-center space-x-4">
+                            <div class="relative">
+                                <button class="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
+                                    <img src="https://via.placeholder.com/40" alt="Profile" class="w-8 h-8 rounded-full">
+                                    <span>Mohammed A.</span>
+                                    <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full">En ligne</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="md:hidden">
+                            <button class="text-gray-700">
+                                <i class="fas fa-bars text-2xl"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
         @endif
     @endauth
 

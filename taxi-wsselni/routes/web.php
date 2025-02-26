@@ -32,6 +32,8 @@ Route::get('/chauffeur/{id}', function () {
     return view('pages.chaffeur');
 })->name('details');
 
+
+// Login & Register
 Route::middleware(['guest'])->group(function(){
     Route::get('/login',[AuthController::class, 'showLogin'])->name('show.login');
     Route::get('/register',[AuthController::class, 'showRegister'])->name('show.register');
@@ -40,4 +42,12 @@ Route::middleware(['guest'])->group(function(){
     Route::post('/register',[AuthController::class, 'register'])->name('register');
 });
 
+
+// Logout
 Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
+
+
+// Profile
+Route::middleware(['auth'])->group(function(){
+    Route::get('/passenger/profile',function(){ return view('passenger.profile'); })->name('passenger.profile');
+});
