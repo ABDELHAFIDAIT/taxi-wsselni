@@ -76,23 +76,100 @@
 
     @auth
         @if(Auth::user()->role === 'Passenger')
-        <!-- Navigation -->
-        <nav class="bg-white shadow-lg">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="flex justify-between items-center h-16">
-                    <!-- Logo -->
-                    <div class="flex items-center">
-                        <a href="{{ route('homepage') }}" class="flex items-center">
-                            <img src="{{ asset('logo.png') }}" alt="Logo" class="h-16">
-                        </a>
+            <!-- Navigation -->
+            <nav class="bg-white shadow-lg">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="flex justify-between items-center h-16">
+                        <!-- Logo -->
+                        <div class="flex items-center">
+                            <a href="{{ route('homepage') }}" class="flex items-center">
+                                <img src="{{ asset('logo.png') }}" alt="Logo" class="h-16">
+                            </a>
+                        </div>
+
+                        <!-- Navigation Links - Desktop -->
+                        <div class="hidden md:flex items-center space-x-8">
+                            <a href="{{ route('homepage') }}" class="text-gray-700 hover:text-blue-600 font-medium">Accueil</a>
+                            <a href="{{ route('services') }}" class="text-gray-700 hover:text-blue-600 font-medium">Services</a>
+                            <a href="{{ route('chauffeurs') }}" class="text-gray-700 hover:text-blue-600 font-medium">Chauffeurs</a>
+                            
+                            <!-- Profile Dropdown -->
+                            <div class="dropdown relative">
+                                <button class="flex items-center space-x-3 focus:outline-none">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Photo de profil" class="w-10 h-10 rounded-full border-2 border-blue-600">
+                                        <i class="fas fa-chevron-down text-gray-500 text-sm"></i>
+                                    </div>
+                                </button>
+                                <!-- Dropdown menu -->
+                                <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                                    <a href="{{ route('passenger.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                        <i class="fas fa-user mr-2"></i>
+                                        Profile
+                                    </a>
+                                    <div class="border-t border-gray-100"></div>
+                                    <form action="{{ route('logout') }}" method="POST" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer">
+                                        @csrf
+                                        <button><i class="fas fa-sign-out-alt mr-2"></i>
+                                        Déconnexion</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mobile menu button -->
+                        <div class="md:hidden">
+                            <button type="button" class="text-gray-700 hover:text-blue-600" aria-label="Toggle menu">
+                                <i class="fas fa-bars text-2xl"></i>
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- Navigation Links - Desktop -->
-                    <div class="hidden md:flex items-center space-x-8">
-                        <a href="{{ route('homepage') }}" class="text-gray-700 hover:text-blue-600 font-medium">Accueil</a>
-                        <a href="{{ route('services') }}" class="text-gray-700 hover:text-blue-600 font-medium">Services</a>
-                        <a href="{{ route('chauffeurs') }}" class="text-gray-700 hover:text-blue-600 font-medium">Chauffeurs</a>
-                        
+                    <!-- Mobile Navigation Menu -->
+                    <div class="md:hidden hidden">
+                        <div class="px-2 pt-2 pb-3 space-y-1">
+                            <a href="{{ route('homepage') }}" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">Accueil</a>
+                            <a href="{{ route('services') }}" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">Services</a>
+                            <a href="{{ route('chauffeurs') }}" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">Chauffeurs</a>
+                            
+                            <!-- Mobile Profile Links -->
+                            <div class="border-t border-gray-200 pt-4 pb-3">
+                                <div class="flex items-center px-3">
+                                    <div class="flex-shrink-0">
+                                        <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Photo de profil" class="w-10 h-10 rounded-full">
+                                    </div>
+                                </div>
+                                <div class="mt-3 space-y-1">
+                                    <a href="{{ route('passenger.profile') }}" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">
+                                        <i class="fas fa-user mr-2"></i>
+                                        Profile
+                                    </a>
+                                    <a href="/" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">
+                                        <i class="fas fa-ticket-alt mr-2"></i>
+                                        Réservations
+                                    </a>
+                                    <a href="{{ route('logout') }}" class="block px-3 py-2 text-red-600 hover:bg-red-50 rounded-md">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>
+                                        Déconnexion
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        @endif
+
+        @if(Auth::user()->role === 'Driver')
+            <!-- Navigation -->
+            <nav class="bg-white shadow-lg">
+                <div class="max-w-7xl mx-auto px-4">
+                    <div class="flex justify-between items-center h-16">
+                        <div class="flex items-center">
+                            <a href="{{ route('homepage') }}" class="flex items-center">
+                                <img src="{{ asset('logo.png') }}" alt="Logo" class="h-16">
+                            </a>
+                        </div>
                         <!-- Profile Dropdown -->
                         <div class="dropdown relative">
                             <button class="flex items-center space-x-3 focus:outline-none">
@@ -114,76 +191,6 @@
                                     Déconnexion</button>
                                 </form>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Mobile menu button -->
-                    <div class="md:hidden">
-                        <button type="button" class="text-gray-700 hover:text-blue-600" aria-label="Toggle menu">
-                            <i class="fas fa-bars text-2xl"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Mobile Navigation Menu -->
-                <div class="md:hidden hidden">
-                    <div class="px-2 pt-2 pb-3 space-y-1">
-                        <a href="{{ route('homepage') }}" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">Accueil</a>
-                        <a href="{{ route('services') }}" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">Services</a>
-                        <a href="{{ route('chauffeurs') }}" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">Chauffeurs</a>
-                        
-                        <!-- Mobile Profile Links -->
-                        <div class="border-t border-gray-200 pt-4 pb-3">
-                            <div class="flex items-center px-3">
-                                <div class="flex-shrink-0">
-                                    <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Photo de profil" class="w-10 h-10 rounded-full">
-                                </div>
-                            </div>
-                            <div class="mt-3 space-y-1">
-                                <a href="{{ route('passenger.profile') }}" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">
-                                    <i class="fas fa-user mr-2"></i>
-                                    Profile
-                                </a>
-                                <a href="/" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">
-                                    <i class="fas fa-ticket-alt mr-2"></i>
-                                    Réservations
-                                </a>
-                                <a href="{{ route('logout') }}" class="block px-3 py-2 text-red-600 hover:bg-red-50 rounded-md">
-                                    <i class="fas fa-sign-out-alt mr-2"></i>
-                                    Déconnexion
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        @endif
-
-        @if(Auth::user()->role === 'Driver')
-            <!-- Navigation -->
-            <nav class="bg-white shadow-lg">
-                <div class="max-w-7xl mx-auto px-4">
-                    <div class="flex justify-between items-center h-16">
-                        <div class="flex items-center">
-                            <a href="index.html" class="flex items-center">
-                                <span class="text-2xl font-bold text-yellow-500">Taxi</span>
-                                <span class="text-2xl font-bold text-blue-600">Wsselni</span>
-                            </a>
-                        </div>
-                        <div class="hidden md:flex items-center space-x-4">
-                            <div class="relative">
-                                <button class="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
-                                    <img src="https://via.placeholder.com/40" alt="Profile" class="w-8 h-8 rounded-full">
-                                    <span>Mohammed A.</span>
-                                    <span class="bg-green-500 text-white text-xs px-2 py-1 rounded-full">En ligne</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="md:hidden">
-                            <button class="text-gray-700">
-                                <i class="fas fa-bars text-2xl"></i>
-                            </button>
                         </div>
                     </div>
                 </div>
