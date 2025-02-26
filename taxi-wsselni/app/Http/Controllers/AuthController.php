@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Models\Driver;
+use App\Models\City;
 
 
 class AuthController extends Controller
@@ -17,7 +18,8 @@ class AuthController extends Controller
     }
 
     public function showRegister(){
-        return view('auth.register');
+        $cities = City::orderBy('name', 'asc')->get();
+        return view('auth.register', compact('cities'));
     }
 
     // Login
@@ -30,7 +32,11 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/');
+            if(auth()->user()->role == 'Passenger'){
+                return redirect()->intended('/');
+            }else{
+                return redirect()->intended('/driver/dashboard');
+            }
         }
 
         return back()->withErrors([
@@ -91,6 +97,7 @@ class AuthController extends Controller
                 'permis'   => $request->permis,
                 'vehicule' => $request->vehicule,
                 'id_driver'  => $user->id,
+                'id_city'  => $request->city,
             ]);
         }
 
@@ -99,7 +106,7 @@ class AuthController extends Controller
         if($user->role = 'Passenger'){
             return redirect()->route('homepage');
         }else{
-            return redirect()->route('services');
+            return redirect()->route('driver.dashboard');
         }
     }
 

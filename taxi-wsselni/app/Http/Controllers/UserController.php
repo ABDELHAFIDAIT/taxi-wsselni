@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     public function drivers(){
-        $users = User::with('driver')->get();
+        $users = User::with('driver','driver.city')->get();
         $cities = City::all();
-        return view('pages.chauffeurs', ['users' => $users, 'cities' => $cities]);
+        return view('pages.chauffeurs', compact('users', 'cities'));
     }
 }

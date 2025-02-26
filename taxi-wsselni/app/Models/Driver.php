@@ -13,9 +13,14 @@ class Driver extends Model
         'id_driver',
         'permis',
         'vehicule',
+        'id_city'
     ];
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function city(){
+        return $this->belongsTo(City::class, 'id_city');
     }
 }

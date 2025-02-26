@@ -166,7 +166,7 @@
                 <div class="max-w-7xl mx-auto px-4">
                     <div class="flex justify-between items-center h-16">
                         <div class="flex items-center">
-                            <a href="{{ route('homepage') }}" class="flex items-center">
+                            <a href="{{ route('driver.dashboard') }}" class="flex items-center">
                                 <img src="{{ asset('logo.png') }}" alt="Logo" class="h-16">
                             </a>
                         </div>
@@ -180,11 +180,6 @@
                             </button>
                             <!-- Dropdown menu -->
                             <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                                <a href="{{ route('passenger.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
-                                    <i class="fas fa-user mr-2"></i>
-                                    Profile
-                                </a>
-                                <div class="border-t border-gray-100"></div>
                                 <form action="{{ route('logout') }}" method="POST" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer">
                                     @csrf
                                     <button><i class="fas fa-sign-out-alt mr-2"></i>
@@ -200,65 +195,168 @@
 
 
     <main>
+        @auth
+            @if(Auth::user()->role === 'Driver')
+                <section class="flex">
+                    <!-- Sidebar -->
+                    <div class="hidden md:flex md:flex-shrink-0">
+                        <div class="flex flex-col w-64">
+                            <div class="flex flex-col h-0 flex-1 bg-white shadow">
+                                <div class="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
+                                    <nav class="flex-1 px-2 space-y-2">
+                                        <a href="{{ route('driver.dashboard') }}" class="group flex items-center px-2 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-md">
+                                            <i class="fas fa-tachometer-alt mr-3"></i>
+                                            Tableau de bord
+                                        </a>
+                                        <a href="{{ route('driver.reservations') }}" class="group flex items-center px-2 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-md">
+                                            <i class="fa-regular fa-bookmark mr-3"></i>
+                                            Réservations
+                                        </a>
+                                        <a href="{{ route('driver.trajets') }}" class="group flex items-center px-2 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-md">
+                                            <i class="fas fa-route mr-3"></i>
+                                            Historique des Trajets
+                                        </a>
+                                        <a href="{{ route('driver.disponibility') }}" class="group flex items-center px-2 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-md">
+                                            <i class="fa-regular fa-calendar mr-3"></i>
+                                            Disponibilité
+                                        </a>
+                                        <a href="{{ route('driver.profile') }}" class="group flex items-center px-2 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-md">
+                                            <i class="fa-solid fa-user mr-3"></i>
+                                            Profile
+                                        </a>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Content -->
+                    @yield('dashboard')
+                </section>
+            @endif
+        @endauth
+
+
         @yield('content')
     </main>
 
 
     <!-- Footer -->
-    <footer class="bg-gray-800">
-        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div>
-                    <h3 class="text-white text-lg font-semibold mb-4">À propos</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-300 hover:text-white">Qui sommes-nous</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white">Notre mission</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white">Carrières</a></li>
-                    </ul>
+    @auth
+        @if(Auth::user()->role != 'Driver')
+            <footer class="bg-gray-800">
+                <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                        <div>
+                            <h3 class="text-white text-lg font-semibold mb-4">À propos</h3>
+                            <ul class="space-y-2">
+                                <li><a href="#" class="text-gray-300 hover:text-white">Qui sommes-nous</a></li>
+                                <li><a href="#" class="text-gray-300 hover:text-white">Notre mission</a></li>
+                                <li><a href="#" class="text-gray-300 hover:text-white">Carrières</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-white text-lg font-semibold mb-4">Services</h3>
+                            <ul class="space-y-2">
+                                <li><a href="#" class="text-gray-300 hover:text-white">Réservation</a></li>
+                                <li><a href="#" class="text-gray-300 hover:text-white">Tarifs</a></li>
+                                <li><a href="#" class="text-gray-300 hover:text-white">Zones desservies</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-white text-lg font-semibold mb-4">Chauffeurs</h3>
+                            <ul class="space-y-2">
+                                <li><a href="#" class="text-gray-300 hover:text-white">Devenir chauffeur</a></li>
+                                <li><a href="#" class="text-gray-300 hover:text-white">Avantages</a></li>
+                                <li><a href="#" class="text-gray-300 hover:text-white">Formation</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-white text-lg font-semibold mb-4">Contact</h3>
+                            <ul class="space-y-2">
+                                <li><a href="#" class="text-gray-300 hover:text-white">Support</a></li>
+                                <li><a href="#" class="text-gray-300 hover:text-white">FAQ</a></li>
+                                <li><a href="#" class="text-gray-300 hover:text-white">Urgence</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-8 border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center">
+                        <div class="flex space-x-6 mb-4 md:mb-0">
+                            <a href="#" class="text-gray-400 hover:text-white">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-white">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-white">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                        <p class="text-gray-400 text-sm">
+                            © 2025 Taxi Wsselni. Tous droits réservés.
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <h3 class="text-white text-lg font-semibold mb-4">Services</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-300 hover:text-white">Réservation</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white">Tarifs</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white">Zones desservies</a></li>
-                    </ul>
+            </footer>
+        @endif
+    @endauth
+
+    @guest
+        <footer class="bg-gray-800">
+            <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div>
+                        <h3 class="text-white text-lg font-semibold mb-4">À propos</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-300 hover:text-white">Qui sommes-nous</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white">Notre mission</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white">Carrières</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-white text-lg font-semibold mb-4">Services</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-300 hover:text-white">Réservation</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white">Tarifs</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white">Zones desservies</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-white text-lg font-semibold mb-4">Chauffeurs</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-300 hover:text-white">Devenir chauffeur</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white">Avantages</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white">Formation</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-white text-lg font-semibold mb-4">Contact</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-300 hover:text-white">Support</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white">FAQ</a></li>
+                            <li><a href="#" class="text-gray-300 hover:text-white">Urgence</a></li>
+                        </ul>
+                    </div>
                 </div>
-                <div>
-                    <h3 class="text-white text-lg font-semibold mb-4">Chauffeurs</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-300 hover:text-white">Devenir chauffeur</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white">Avantages</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white">Formation</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-white text-lg font-semibold mb-4">Contact</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-300 hover:text-white">Support</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white">FAQ</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white">Urgence</a></li>
-                    </ul>
+                <div class="mt-8 border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center">
+                    <div class="flex space-x-6 mb-4 md:mb-0">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        © 2025 Taxi Wsselni. Tous droits réservés.
+                    </p>
                 </div>
             </div>
-            <div class="mt-8 border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <div class="flex space-x-6 mb-4 md:mb-0">
-                    <a href="#" class="text-gray-400 hover:text-white">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="text-gray-400 hover:text-white">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                </div>
-                <p class="text-gray-400 text-sm">
-                    © 2025 Taxi Wsselni. Tous droits réservés.
-                </p>
-            </div>
-        </div>
-    </footer>
+        </footer>
+    @endguest
 
     <script>
         // Toggle mobile menu

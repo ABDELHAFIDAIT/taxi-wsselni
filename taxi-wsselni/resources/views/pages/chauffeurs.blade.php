@@ -111,6 +111,10 @@
                                         <i class="fa-solid fa-taxi text-yellow-400 pr-3"></i>
                                         <span>{{ $user->driver->vehicule }}</span>
                                     </div>
+                                    <div class="flex items-center text-gray-600">
+                                        <i class="fa-solid fa-city textt-gray-800 pr-3"></i>
+                                        <span>{{ $user->driver->city->name }}</span>
+                                    </div>
                                 </div>
                                 @auth
                                     @if(Auth::user()->role == 'Passenger')
