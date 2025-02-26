@@ -29,7 +29,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/home');
+            return redirect()->intended('/');
         }
 
         return back()->withErrors([
@@ -51,7 +51,7 @@ class AuthController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('photo')) {
-            $imagePath = $request->file('photo')->store('annonces', 'public');
+            $imagePath = $request->file('photo')->store('users', 'public');
         }
 
         if ($validator->fails()) {
@@ -61,18 +61,22 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'f_name' => $request->f_name,
-            'l_name' => $request->l_name,
-            'phone'  => $request->phone,
-            'photo'  => $imagePath,
-            'role'   => $request->role,
-            'email' => $request->email,
+            'f_name'   => $request->f_name,
+            'l_name'   => $request->l_name,
+            'phone'    => $request->phone,
+            'photo'    => $imagePath,
+            'role'     => $request->role,
+            'email'    => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
         auth()->login($user);
 
-        return redirect()->route('homepage');
+        if($user->role = 'Passenger'){
+            return redirect()->route('homepage');
+        }else{
+            return redirect()->route('services');
+        }
     }
 
     // Logout

@@ -75,6 +75,7 @@
     @endguest
 
     @auth
+        @if(Auth::user()->role = 'Passenger')
         <!-- Navigation -->
         <nav class="bg-white shadow-lg">
             <div class="max-w-7xl mx-auto px-4">
@@ -96,7 +97,7 @@
                         <div class="dropdown relative">
                             <button class="flex items-center space-x-3 focus:outline-none">
                                 <div class="flex items-center space-x-3">
-                                    <img src="https://raw.githubusercontent.com/ABDELHAFIDAIT/youdemy/refs/heads/main/uploads/user.png" alt="Photo de profil" class="w-10 h-10 rounded-full border-2 border-blue-600">
+                                    <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Photo de profil" class="w-10 h-10 rounded-full border-2 border-blue-600">
                                     <i class="fas fa-chevron-down text-gray-500 text-sm"></i>
                                 </div>
                             </button>
@@ -111,10 +112,11 @@
                                     Réservations
                                 </a>
                                 <div class="border-t border-gray-100"></div>
-                                <a href="/" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">
-                                    <i class="fas fa-sign-out-alt mr-2"></i>
-                                    Déconnexion
-                                </a>
+                                <form action="{{ route('logout') }}" method="POST" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer">
+                                    @csrf
+                                    <button><i class="fas fa-sign-out-alt mr-2"></i>
+                                    Déconnexion</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -150,7 +152,7 @@
                                     <i class="fas fa-ticket-alt mr-2"></i>
                                     Réservations
                                 </a>
-                                <a href="/" class="block px-3 py-2 text-red-600 hover:bg-red-50 rounded-md">
+                                <a href="{{ route('logout') }}" class="block px-3 py-2 text-red-600 hover:bg-red-50 rounded-md">
                                     <i class="fas fa-sign-out-alt mr-2"></i>
                                     Déconnexion
                                 </a>
@@ -160,6 +162,7 @@
                 </div>
             </div>
         </nav>
+        @endif
     @endauth
 
 
