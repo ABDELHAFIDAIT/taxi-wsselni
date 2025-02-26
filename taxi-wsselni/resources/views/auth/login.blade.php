@@ -15,6 +15,10 @@
         *{
             font-family: 'Poppins', sans-serif;
         }
+
+        body{
+            background: linear-gradient(135deg, #f6f8fb 0%, #e9edf3 100%);
+        }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center py-24">
@@ -29,7 +33,9 @@
     <div class="w-full max-w-md">
         <div class="bg-white rounded-2xl shadow-xl p-8">
             <h2 class="text-2xl font-bold text-center text-gray-800 mb-8">Connexion</h2>
-            <form class="space-y-6">
+            <form method="POST" action="{{ route('show.login') }}" class="space-y-6">
+                @csrf
+
                 <!-- Email -->
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Adresse email</label>
@@ -37,10 +43,14 @@
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="fas fa-envelope text-gray-400"></i>
                         </div>
-                        <input type="email" id="email" name="email" required
+                        <input id="email" type="email" name="email" value="{{ old('email') }}" required
                             class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="exemple@email.com">
                     </div>
+
+                    @error('email')
+                        <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Password -->
@@ -50,10 +60,14 @@
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="fas fa-lock text-gray-400"></i>
                         </div>
-                        <input type="password" id="password" name="password" required
+                        <input id="password" type="password" name="password" required autocomplete="current-password"
                             class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="••••••••">
                     </div>
+
+                    @error('password')
+                        <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Remember me & Forgot password -->
@@ -104,7 +118,7 @@
                 <!-- Register Link -->
                 <p class="mt-4 text-center text-sm text-gray-600">
                     Vous n'avez pas de compte ?
-                    <a href="{{ route('register') }}" class="font-medium text-blue-600 hover:text-blue-500">
+                    <a href="{{ route('show.register') }}" class="font-medium text-blue-600 hover:text-blue-500">
                         S'inscrire
                     </a>
                 </p>

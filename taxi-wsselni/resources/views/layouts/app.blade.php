@@ -15,6 +15,14 @@
         *{
             font-family: 'Poppins', sans-serif;
         }
+
+        .dropdown-menu {
+            display: none;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
     </style>
     @yield('style')
 </head>
@@ -37,8 +45,8 @@
                         <a href="{{ route('services') }}" class="text-gray-700 hover:text-blue-600 font-medium">Services</a>
                         <a href="{{ route('chauffeurs') }}" class="text-gray-700 hover:text-blue-600 font-medium">Chauffeurs</a>
                         <div class="flex items-center space-x-4">
-                            <a href="{{ route('login') }}" class="px-4 py-2 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-300">Se Connecter</a>
-                            <a href="{{ route('register') }}" class="px-4 py-2 rounded-md text-blue-600 border border-blue-600 hover:bg-blue-50 transition duration-300">S'inscrire</a>
+                            <a href="{{ route('show.login') }}" class="px-4 py-2 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-300">Se Connecter</a>
+                            <a href="{{ route('show.register') }}" class="px-4 py-2 rounded-md text-blue-600 border border-blue-600 hover:bg-blue-50 transition duration-300">S'inscrire</a>
                         </div>
                     </div>
 
@@ -57,14 +65,102 @@
                         <a href="{{ route('services') }}" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">Services</a>
                         <a href="{{ route('chauffeurs') }}" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">Chauffeurs</a>
                         <div class="space-y-2 pt-2">
-                            <a href="{{ route('login') }}" class="block px-3 py-2 text-center text-white bg-blue-600 hover:bg-blue-700 rounded-md">Se Connecter</a>
-                            <a href="{{ route('register') }}" class="block px-3 py-2 text-center text-blue-600 border border-blue-600 hover:bg-blue-50 rounded-md">S'inscrire</a>
+                            <a href="{{ route('show.login') }}" class="block px-3 py-2 text-center text-white bg-blue-600 hover:bg-blue-700 rounded-md">Se Connecter</a>
+                            <a href="{{ route('show.register') }}" class="block px-3 py-2 text-center text-blue-600 border border-blue-600 hover:bg-blue-50 rounded-md">S'inscrire</a>
                         </div>
                     </div>
                 </div>
             </div>
         </nav>
     @endguest
+
+    @auth
+        <!-- Navigation -->
+        <nav class="bg-white shadow-lg">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="flex justify-between items-center h-16">
+                    <!-- Logo -->
+                    <div class="flex items-center">
+                        <a href="{{ route('homepage') }}" class="flex items-center">
+                            <img src="{{ asset('logo.png') }}" alt="Logo" class="h-16">
+                        </a>
+                    </div>
+
+                    <!-- Navigation Links - Desktop -->
+                    <div class="hidden md:flex items-center space-x-8">
+                        <a href="{{ route('homepage') }}" class="text-gray-700 hover:text-blue-600 font-medium">Accueil</a>
+                        <a href="{{ route('services') }}" class="text-gray-700 hover:text-blue-600 font-medium">Services</a>
+                        <a href="{{ route('chauffeurs') }}" class="text-gray-700 hover:text-blue-600 font-medium">Chauffeurs</a>
+                        
+                        <!-- Profile Dropdown -->
+                        <div class="dropdown relative">
+                            <button class="flex items-center space-x-3 focus:outline-none">
+                                <div class="flex items-center space-x-3">
+                                    <img src="https://raw.githubusercontent.com/ABDELHAFIDAIT/youdemy/refs/heads/main/uploads/user.png" alt="Photo de profil" class="w-10 h-10 rounded-full border-2 border-blue-600">
+                                    <i class="fas fa-chevron-down text-gray-500 text-sm"></i>
+                                </div>
+                            </button>
+                            <!-- Dropdown menu -->
+                            <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                                <a href="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="fas fa-user mr-2"></i>
+                                    Profile
+                                </a>
+                                <a href="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                                    <i class="fas fa-ticket-alt mr-2"></i>
+                                    Réservations
+                                </a>
+                                <div class="border-t border-gray-100"></div>
+                                <a href="/" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>
+                                    Déconnexion
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile menu button -->
+                    <div class="md:hidden">
+                        <button type="button" class="text-gray-700 hover:text-blue-600" aria-label="Toggle menu">
+                            <i class="fas fa-bars text-2xl"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Navigation Menu -->
+                <div class="md:hidden hidden">
+                    <div class="px-2 pt-2 pb-3 space-y-1">
+                        <a href="{{ route('homepage') }}" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">Accueil</a>
+                        <a href="{{ route('services') }}" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">Services</a>
+                        <a href="{{ route('chauffeurs') }}" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">Chauffeurs</a>
+                        
+                        <!-- Mobile Profile Links -->
+                        <div class="border-t border-gray-200 pt-4 pb-3">
+                            <div class="flex items-center px-3">
+                                <div class="flex-shrink-0">
+                                    <img src="https://raw.githubusercontent.com/ABDELHAFIDAIT/youdemy/refs/heads/main/uploads/user.png" alt="Photo de profil" class="w-10 h-10 rounded-full">
+                                </div>
+                            </div>
+                            <div class="mt-3 space-y-1">
+                                <a href="/" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">
+                                    <i class="fas fa-user mr-2"></i>
+                                    Profile
+                                </a>
+                                <a href="/" class="block px-3 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md">
+                                    <i class="fas fa-ticket-alt mr-2"></i>
+                                    Réservations
+                                </a>
+                                <a href="/" class="block px-3 py-2 text-red-600 hover:bg-red-50 rounded-md">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>
+                                    Déconnexion
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    @endauth
 
 
     <main>

@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use App\Models\User;
+
 
 class AuthController extends Controller
 {
@@ -14,11 +19,71 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
+    // Login
     public function login(Request $request){
-        
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($credentials, $request->filled('remember'))) {
+            $request->session()->regenerate();
+
+            return redirect()->intended('/home');
+        }
+
+        return back()->withErrors([
+            'email' => 'Les identifiants fournis ne correspondent pas à nos enregistrements.',
+        ])->withInput($request->except('password'));
     }
 
+    // Register
     public function register(Request $request){
-        
+        $validator = Validator::make($request->all(), [
+            'f_name' => 'required|string|max:255',
+            'l_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+            'role' => 'required|string|in:Driver,Passenger',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+        ]);
+
+        $imagePath = null;
+        if ($request->hasFile('photo')) {
+            $imagePath = $request->file('photo')->store('annonces', 'public');
+        }
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $user = User::create([
+            'f_name' => $request->f_name,
+            'l_name' => $request->l_name,
+            'phone'  => $request->phone,
+            'photo'  => $imagePath,
+            'role'   => $request->role,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        auth()->login($user);
+
+        return redirect()->route('homepage');
+    }
+
+    // Logout
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }

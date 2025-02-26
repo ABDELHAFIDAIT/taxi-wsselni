@@ -31,44 +31,58 @@
     <div class="w-full max-w-xl">
         <div class="bg-white rounded-2xl shadow-xl p-8">
             <h2 class="text-2xl font-bold text-center text-gray-800 mb-8">Créer un compte</h2>
-            <form class="space-y-6">
+            <form method="POST" action="{{ route('register') }}" class="space-y-6" enctype="multipart/form-data">
+                @csrf
+
                 <!-- Nom et Prénom -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label for="nom" class="block text-sm font-medium text-gray-700 mb-2">Nom</label>
+                        <label for="f_name" class="block text-sm font-medium text-gray-700 mb-2">Prénom</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-user text-gray-400"></i>
                             </div>
-                            <input type="text" id="nom" name="nom" required
-                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                placeholder="Votre nom">
-                        </div>
-                    </div>
-                    <div>
-                        <label for="prenom" class="block text-sm font-medium text-gray-700 mb-2">Prénom</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-user text-gray-400"></i>
-                            </div>
-                            <input type="text" id="prenom" name="prenom" required
+                            <input id="f_name" type="text" name="f_name" value="{{ old('f_name') }}" required autocomplete="f_name"
                                 class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                 placeholder="Votre prénom">
                         </div>
+
+                        @error('f_name')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div>
+                        <label for="l_name" class="block text-sm font-medium text-gray-700 mb-2">Nom</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-user text-gray-400"></i>
+                            </div>
+                            <input id="l_name" type="text" name="l_name" value="{{ old('l_name') }}" required autocomplete="l_name"
+                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Votre nom">
+                        </div>
+
+                        @error('l_name')
+                            <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
 
                 <!-- Téléphone -->
                 <div>
-                    <label for="telephone" class="block text-sm font-medium text-gray-700 mb-2">Téléphone</label>
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Téléphone</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="fas fa-phone text-gray-400"></i>
                         </div>
-                        <input type="tel" id="telephone" name="telephone" required
+                        <input id="phone" type="tel" name="phone" value="{{ old('phone') }}" required autocomplete="phone"
                             class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="+212 6XX-XXXXXX">
                     </div>
+
+                    @error('phone')
+                        <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Photo -->
@@ -87,6 +101,10 @@
                             <p class="text-xs text-gray-500">PNG, JPG jusqu'à 5MB</p>
                         </div>
                     </div>
+
+                    @error('photo')
+                        <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Role -->
@@ -97,13 +115,17 @@
                             <i class="fas fa-user-tag text-gray-400"></i>
                         </div>
                         <select id="role" name="role" required class="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white">
-                            <option value="passager">Passager</option>
-                            <option value="chauffeur">Chauffeur</option>
+                            <option value="Passenger">Passager</option>
+                            <option value="Driver">Chauffeur</option>
                         </select>
                         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                             <i class="fas fa-chevron-down text-gray-400"></i>
                         </div>
                     </div>
+
+                    @error('role')
+                        <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Email -->
@@ -113,10 +135,16 @@
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="fas fa-envelope text-gray-400"></i>
                         </div>
-                        <input type="email" id="email" name="email" required
+                        <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email"
                             class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="exemple@email.com">
                     </div>
+                    
+                    @error('email')
+                        <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                    @enderror
+
+
                 </div>
 
                 <!-- Password -->
@@ -126,20 +154,24 @@
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="fas fa-lock text-gray-400"></i>
                         </div>
-                        <input type="password" id="password" name="password" required
+                        <input id="password" type="password" name="password" required autocomplete="new-password"
                             class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="••••••••">
                     </div>
+
+                    @error('password')
+                        <span class="text-red-500 text-xs mt-1">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Confirm Password -->
                 <div>
-                    <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-2">Confirmer le mot de passe</label>
+                    <label for="password-confirm" class="block text-sm font-medium text-gray-700 mb-2">Confirmer le mot de passe</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="fas fa-lock text-gray-400"></i>
                         </div>
-                        <input type="password" id="confirm-password" name="confirm-password" required
+                        <input id="password-confirm" type="password" name="password_confirmation" required autocomplete="new-password"
                             class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             placeholder="••••••••">
                     </div>
@@ -155,7 +187,7 @@
                 <!-- Login Link -->
                 <p class="mt-4 text-center text-sm text-gray-600">
                     Vous avez déjà un compte ?
-                    <a href="{{ route('login') }}" class="font-medium text-blue-600 hover:text-blue-500">
+                    <a href="{{ route('show.login') }}" class="font-medium text-blue-600 hover:text-blue-500">
                         Se connecter
                     </a>
                 </p>

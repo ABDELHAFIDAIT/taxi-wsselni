@@ -33,6 +33,9 @@ Route::get('/chauffeur/{id}', function () {
 })->name('details');
 
 Route::middleware(['guest'])->group(function(){
-    Route::get('/login',[AuthController::class, 'showLogin'])->name('login');
-    Route::get('/register',[AuthController::class, 'showRegister'])->name('register');
+    Route::get('/login',[AuthController::class, 'showLogin'])->name('show.login');
+    Route::get('/register',[AuthController::class, 'showRegister'])->name('show.register');
+
+    Route::post('/login',[AuthController::class, 'login'])->name('connect');
+    Route::post('/register',[AuthController::class, 'register'])->name('register');
 });
