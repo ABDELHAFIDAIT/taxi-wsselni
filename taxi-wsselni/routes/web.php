@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DriverController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -58,7 +59,8 @@ Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function(){
     Route::get('/passenger/profile',function(){ return view('passenger.profile'); })->name('passenger.profile');
     Route::get('/passenger/reservations',[ReservationController::class,'show'])->name('passenger.reservations');
-    Route::get('/driver/profile',function(){ return view('driver.profile'); })->name('driver.profile');
+    Route::get('/driver/profile',[DriverController::class,'show'])->name('driver.profile');
+    Route::post('/driver/edit',[DriverController::class,'edit'])->name('driver.edit');
     Route::get('/driver/dashboard',function(){ return view('driver.dashboard'); })->name('driver.dashboard');
     Route::get('/driver/trajets',[ReservationController::class, 'trajets'])->name('driver.trajets');
     Route::get('/driver/reservations',[ReservationController::class, 'index'])->name('driver.reservations');
