@@ -18,10 +18,21 @@
 
         .dropdown-menu {
             display: none;
+            cursor: pointer;
         }
 
         .dropdown:hover .dropdown-menu {
             display: block;
+            cursor: pointer;
+        }
+
+        *::-webkit-scrollbar {
+            width: 2px;
+            background-color: hsla(0, 2%, 81%, 0);
+        }
+        
+        *::-webkit-scrollbar-thumb{
+            background-color: hsla(221, 83%, 53%, 0);
         }
     </style>
     @yield('style')
@@ -179,7 +190,7 @@
                                 </div>
                             </button>
                             <!-- Dropdown menu -->
-                            <div class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                            <div class="dropdown-menu absolute right-0 mt-2 w-48 h-20 bg-white rounded-md shadow-lg py-1 z-50">
                                 <form action="{{ route('logout') }}" method="POST" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 cursor-pointer">
                                     @csrf
                                     <button><i class="fas fa-sign-out-alt mr-2"></i>
@@ -200,7 +211,7 @@
                 <section class="flex">
                     <!-- Sidebar -->
                     <div class="hidden md:flex md:flex-shrink-0">
-                        <div class="flex flex-col w-64">
+                        <div class="flex flex-col w-64 h-[88vh]">
                             <div class="flex flex-col h-0 flex-1 bg-white shadow">
                                 <div class="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                                     <nav class="flex-1 px-2 space-y-2">

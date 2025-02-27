@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function drivers(){
         $users = User::with('driver','driver.city')->get();
-        $cities = City::all();
+        $cities = City::orderBy('name','asc')->get();
         return view('pages.chauffeurs', compact('users', 'cities'));
     }
 }
