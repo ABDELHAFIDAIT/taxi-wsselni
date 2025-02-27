@@ -41,7 +41,11 @@
                 <div class="profile-card bg-white rounded-2xl shadow-lg p-6">
                     <div class="text-center">
                         <div class="relative inline-block">
-                            <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Profile" class="mx-auto w-32 h-32 rounded-full border-4 border-blue-500 shadow-lg">
+                            @if (str_contains(Auth::user()->photo, 'http'))
+                                <img src="{{ Auth::user()->photo }}" alt="Profile" class="mx-auto w-32 h-32 rounded-full border-4 border-blue-500 shadow-lg">
+                            @else
+                                <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="Profile" class="mx-auto w-32 h-32 rounded-full border-4 border-blue-500 shadow-lg">
+                            @endif
                             <button class="absolute bottom-0 right-0 bg-blue-500 text-white p-2 rounded-full shadow-lg hover:bg-blue-600 transition-colors duration-200">
                                 <i class="fas fa-camera"></i>
                             </button>
@@ -72,11 +76,11 @@
             </div>
 
             <!-- Profile Content -->
-            <div class="mt-8 md:mt-0 md:col-span-2 flex flex-col gap-5">
-                <div class="bg-white rounded-2xl shadow-lg">
+            <div class="mt-8 md:mt-0 md:col-span-2 flex flex-col gap-10">
+                <div class="rounded-2xl bg-white shadow-lg glass-effect">
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 mb-6">Informations personnelles</h3>
-                        <form method="POST" action="">{{-- {{ route('edit.profile') }} --}}
+                        <form method="POST" action="{{ route('passenger.edit') }}">
                             @csrf
                             <div class="grid grid-cols-1 gap-6">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -107,23 +111,33 @@
                         </form>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl shadow-lg">
+                <div class="rounded-2xl bg-white shadow-lg glass-effect">
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 mb-6">Réinitialisation du Mot de Passe</h3>
-                        <form method="POST" action="">{{-- {{ route('edit.profile') }} --}}
+                        @error('success')
+                            <div class="text-green-600 font-medium my-4">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                        <form method="POST" action="{{ route('passenger.password') }}">
                             @csrf
                             <div class="grid grid-cols-1 gap-6">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Mot de Passe Actuel</label>
-                                    <input name="email" id="email" type="password"  class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                                    <input name="old_password" id="old_password" type="password"  class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                                    @error('old_password')
+                                        <div class="text-red-600 font-light text-xs mt-4">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Nouveau Mot de Passe</label>
-                                    <input name="email" id="email" type="password" class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                                    <input name="password" id="password" type="password" class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Confirmer le Mot de Passee</label>
-                                    <input name="phone" id="phone" type="password" class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                                    <input name="password_confirmation" id="password_confirmation" type="password" class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
                                 </div>
                             </div>
                             <div class="mt-8">

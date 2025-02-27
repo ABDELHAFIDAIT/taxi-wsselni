@@ -70,7 +70,8 @@ Route::middleware(['auth'])->group(function(){
     // Route::get('/driver/disponibility', [DisponibilityController::class, 'index'])->name('driver.disponibility');
     
     
-    
+    Route::post('/passenger/edit', [UserController::class, 'editPassenger'])->name('passenger.edit');
+    Route::post('/passenger/password/edit', [AuthController::class, 'updatePassword'])->name('passenger.password');
     
     
     
