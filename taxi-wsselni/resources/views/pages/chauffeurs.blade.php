@@ -115,7 +115,7 @@
                                 </div>
                                 @auth
                                     @if(Auth::user()->role == 'Passenger')
-                                        <button data-id="{{ $user->driver->id }}" data-city="{{ $user->driver->id_city }}"  id="openPopup" type="button" class="mt-4 px-8 py-2 bg-blue-600 text-white font-medium rounded-sm hover:bg-blue-700 transition-colors duration-200 flex justify-center items-center w-full cursor-pointer">
+                                        <button data-id="{{ $user->driver->id_driver }}" data-city="{{ $user->driver->id_city }}"  id="openPopup" type="button" class="mt-4 px-8 py-2 bg-blue-600 text-white font-medium rounded-sm hover:bg-blue-700 transition-colors duration-200 flex justify-center items-center w-full cursor-pointer">
                                             Réserver
                                         </button>
                                     @endif

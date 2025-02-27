@@ -19,7 +19,7 @@ class Reservation extends Model
 
 
     public function driver(){
-        return $this->belongsTo(Driver::class, 'id_driver');
+        return $this->belongsTo(User::class, 'id_driver');
     }
 
     public function passenger(){

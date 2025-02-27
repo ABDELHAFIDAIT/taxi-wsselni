@@ -4,6 +4,11 @@
     <!-- Reservations Table -->
     <div class="px-5 py-10 w-[calc(100%-16rem)]">
         <div class="p-6">
+            @error('date_reservation')
+                <div class="my-8 border border-red-300 bg-red-200 text-red-800 text-sm rounded-sm">
+                    <h1 class="py-2 px-5">{{ $message }}</h1>
+                </div>
+            @enderror
             <h2 class="text-lg font-semibold text-gray-900 mb-4">Mes Réservations</h2>
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200 border border-gray-300">
@@ -90,14 +95,26 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                                    <a href="#"><button class="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200">
-                                        <i class="fas fa-check mr-1"></i>
-                                        Accepter
-                                    </button></a>
-                                    <a href="#"><button class="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors duration-200">
-                                        <i class="fas fa-times mr-1"></i>
-                                        Refuser
-                                    </button></a>
+                                    @if ($reservation->status == 'accepted')
+                                        <a href="/reservation/{{ $reservation->id }}/cancel"><button class="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors duration-200">
+                                            <i class="fas fa-times mr-1"></i>
+                                            Annuler
+                                        </button></a>
+                                    @elseif($reservation->status == 'refused')
+                                        <a href="/reservation/{{ $reservation->id }}/accept"><button class="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200">
+                                            <i class="fas fa-check mr-1"></i>
+                                            Accepter
+                                        </button></a>
+                                    @else
+                                        <a href="/reservation/{{ $reservation->id }}/accept"><button class="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200">
+                                            <i class="fas fa-check mr-1"></i>
+                                            Accepter
+                                        </button></a>
+                                        <a href="/reservation/{{ $reservation->id }}/cancel"><button class="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors duration-200">
+                                            <i class="fas fa-times mr-1"></i>
+                                            Refuser
+                                        </button></a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

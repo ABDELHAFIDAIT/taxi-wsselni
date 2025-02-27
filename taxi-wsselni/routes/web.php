@@ -60,4 +60,6 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/driver/reservations',[ReservationController::class, 'index'])->name('driver.reservations');
     Route::get('/driver/disponibility',function(){ return view('driver.disponibility'); })->name('driver.disponibility');
     Route::post('/reservation/create', [ReservationController::class, 'store'])->name('reservation.create');
+    Route::get('/reservation/{id}/accept', [ReservationController::class, 'accept'])->name('reservation.accept');
+    Route::get('/reservation/{id}/cancel', [ReservationController::class, 'cancel'])->name('reservation.cancel');
 });

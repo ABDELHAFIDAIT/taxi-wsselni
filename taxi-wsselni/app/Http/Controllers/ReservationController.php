@@ -34,7 +34,27 @@ class ReservationController extends Controller
     }
 
     public function index(){
-        $reservations = Reservation::with('passenger','driver','cityDepart','cityArrivee')->where('id_driver', Auth::user()->id)->latest()->get();
+        $reservations = Reservation::with('passenger','cityDepart','cityArrivee')->where('id_driver','=', Auth::user()->id)->orderBy('id','desc')->get();
         return view('driver.reservations', compact('reservations'));
+    }
+
+    public function accept($id){
+        $reservation = Reservation::find($id);
+        if($reservation->date_reservation < now()){
+            return redirect()->back()->withErrors(['date_reservation' => 'Tu ne peux pas accepter cette réservation car elle est passée !']);
+        }
+        $reservation->status = 'accepted';
+        $reservation->save();
+        return redirect()->back();
+    }
+
+    public function cancel($id){
+        $reservation = Reservation::find($id);
+        if($reservation->date_reservation < now()->addHour()){
+            return redirect()->back()->withErrors(['date_reservation' => 'Tu ne peux pas annuler cette réservation car il reste moins d\'une heure avant le départ !']);
+        }
+        $reservation->status = 'refused';
+        $reservation->save();
+        return redirect()->back();
     }
 }
