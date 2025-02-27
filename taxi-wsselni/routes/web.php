@@ -56,7 +56,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/passenger/profile',function(){ return view('passenger.profile'); })->name('passenger.profile');
     Route::get('/driver/profile',function(){ return view('driver.profile'); })->name('driver.profile');
     Route::get('/driver/dashboard',function(){ return view('driver.dashboard'); })->name('driver.dashboard');
-    Route::get('/driver/trajets',function(){ return view('driver.trajets'); })->name('driver.trajets');
+    Route::get('/driver/trajets',[ReservationController::class, 'trajets'])->name('driver.trajets');
     Route::get('/driver/reservations',[ReservationController::class, 'index'])->name('driver.reservations');
     Route::get('/driver/disponibility',function(){ return view('driver.disponibility'); })->name('driver.disponibility');
     Route::post('/reservation/create', [ReservationController::class, 'store'])->name('reservation.create');

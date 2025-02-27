@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
@@ -56,5 +57,10 @@ class ReservationController extends Controller
         $reservation->status = 'refused';
         $reservation->save();
         return redirect()->back();
+    }
+
+    public function trajets(){
+        $trajets = Reservation::with('driver','cityDepart','cityArrivee')->where('date_reservation','<',Carbon::now())->where('status','accepted')->where('id_driver','=', Auth::user()->id)->orderBy('created_at','desc')->get();
+        return view('driver.trajets', compact('trajets'));
     }
 }

@@ -14,7 +14,7 @@ class CancelExpiredReservations extends Command
     public function handle()
     {
         $reservations = Reservation::where('date_reservation', '<', Carbon::now())
-            ->where('status', '!=', 'refused')
+            ->where('status', '=', 'pending')
             ->update(['status' => 'refused']);
 
         $this->info("$reservations réservation(s) annulée(s) automatiquement.");
