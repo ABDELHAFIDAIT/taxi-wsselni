@@ -57,6 +57,7 @@ Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
 // Profile
 Route::middleware(['auth'])->group(function(){
     Route::get('/passenger/profile',function(){ return view('passenger.profile'); })->name('passenger.profile');
+    Route::get('/passenger/reservations',[ReservationController::class,'show'])->name('passenger.reservations');
     Route::get('/driver/profile',function(){ return view('driver.profile'); })->name('driver.profile');
     Route::get('/driver/dashboard',function(){ return view('driver.dashboard'); })->name('driver.dashboard');
     Route::get('/driver/trajets',[ReservationController::class, 'trajets'])->name('driver.trajets');
@@ -72,7 +73,7 @@ Route::middleware(['auth'])->group(function(){
     
     Route::post('/passenger/edit', [UserController::class, 'editPassenger'])->name('passenger.edit');
     Route::post('/passenger/password/edit', [AuthController::class, 'updatePassword'])->name('passenger.password');
-    
+    Route::post('/reservation/{id}/delete', [ReservationController::class, 'destroy'])->name('reservation.delete');
     
     
     
@@ -92,7 +93,7 @@ Route::middleware(['auth'])->group(function(){
         //     ];
         // }));
 
-        $driver_id = Auth::user()->id; // Récupérer l'ID du chauffeur connecté
+        $driver_id = Auth::user()->id;
 
         $disponibilites = DriverDisponibility::where('id_driver', $driver_id)
             ->with('disponibility')
