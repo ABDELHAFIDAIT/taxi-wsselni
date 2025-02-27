@@ -28,10 +28,6 @@ Route::get('/services', function () {
     return view('pages.services');
 })->name('services');
 
-// Chauffeurs Page
-// Route::get('/chauffeurs', function () {
-//     return view('pages.chauffeurs');
-// })->name('chauffeurs');
 
 Route::get('/chauffeurs', [UserController::class,'drivers'])->name('chauffeurs');
 
