@@ -66,6 +66,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/reservation/{id}/accept', [ReservationController::class, 'accept'])->name('reservation.accept');
     Route::get('/reservation/{id}/cancel', [ReservationController::class, 'cancel'])->name('reservation.cancel');
     Route::get('/driver/disponibility', [DisponibilityController::class, 'show'])->name('driver.disponibility');
+    Route::get('/drivers/search', [DriverController::class, 'search'])->name('drivers.search');
     // Route::get('/driver/disponibility', [DisponibilityController::class, 'index'])->name('driver.disponibility');
     
     

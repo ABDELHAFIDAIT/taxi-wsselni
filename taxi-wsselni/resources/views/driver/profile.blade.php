@@ -32,19 +32,19 @@
 
 
 @section('dashboard')
-
-
-
-
-
-    <div class="flex-1 flex justify-center p-10">
+    <div class="flex-1 flex flex-col p-10 h-[90vh] overflow-y-auto">
+        @if(session('success'))
+            <div class="w-full text-green-800 font-light text-sm py-2 rounded-sm px-5 bg-green-200 border border-green-800 mb-3">
+                <p>{{ session('success') }}</p>
+            </div>
+        @endif
         <!-- Profile Content -->
         <div class="flex flex-wrap gap-10">
             <div class="rounded-2xl bg-white shadow-lg glass-effect w-full">
                 <div class="p-6">
                     <h3 class="text-xl font-bold text-gray-900 mb-6">Informations du Chauffeur</h3>
                     <div class="text-green-600 font-semibold text-lg pb-5">
-                        <i class="fa-solid fa-location-dot mr-3"></i> Ville Actuelle{{-- --}}
+                        <i class="fa-solid fa-location-dot mr-3"></i> {{ $driver->city->name }}
                     </div>
                     <form method="POST" action="{{ route('driver.edit') }}">
                         @csrf
@@ -52,17 +52,28 @@
                             <div class="grid grid-cols-3 md:grid-cols-2 gap-6">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Permis</label>
-                                    <input name="permis" id="permis" type="text" value="{{ Auth::user()->permis }}" class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                                    <input name="permis" id="permis" type="text" value="{{ $driver->permis }}" class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                                    @error('permis')
+                                        <p class="text-xs font-light text-red-600">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Vehicule</label>
-                                    <input name="vehicule" id="vehicule" type="text" value="{{ Auth::user()->vehicule }}" class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                                    <input name="vehicule" id="vehicule" type="text" value="{{ $driver->vehicule }}" class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                                    @error('vehicule')
+                                        <p class="text-xs font-light text-red-600">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Ville</label>
                                     <select name="city" id="city" class="w-full px-4 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
-                                        <option value="">Agadir</option>
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                        @endforeach
                                     </select>
+                                    @error('city')
+                                        <p class="text-xs font-light text-red-600">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
